@@ -33,3 +33,25 @@ declare module 'PipeWrench-Utils' {
   /** @noSelf */
   export const isPipeWrenchLoaded: () => boolean;
 }
+
+/**
+ * Hook utility class by Konijima, 8/5/2022
+ * Allow TS mods to hook into global object methods to extend or overwrite functionality
+ */
+ declare module 'PipeWrench-Utils' {
+  /**
+   * Hook utility class
+   */
+  export abstract class hook {
+    /**
+     * @noSelf
+     * 
+     * Hook into a global object method
+     * @param objectName The global object name to find
+     * @param methodName The method to find into the global object
+     * @param hook The hook function to apply to that method
+     * @returns Return true if the hook was successful 
+     */
+    static into: (objectName: string, methodName: string, hook: (this: void, method: (this: void, self: any, ...args: any[]) => any, self: any, ...args: any[]) => void) => boolean
+  }
+}
