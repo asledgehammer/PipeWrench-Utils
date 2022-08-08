@@ -43,6 +43,8 @@ local Hook = function()
   local o = {}
 
   o.deepInto = function(target, hook)
+    if type(target) ~= "string" then error("Hook 'target' param must be a string."); end
+    if type(hook) ~= "function" then error("Hook 'hook' param must be a function."); end
     print(("Hooking into " .. target) .. "...")
     target = __TS__StringReplaceAll(target, ":", ".")
     local splits = __TS__StringSplit(target, ".")
