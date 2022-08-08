@@ -50,7 +50,7 @@ local Hook = function()
     do
         local i = 1
         while i < #splits do
-            if original[splits[i + 1]] then
+            if original and original[splits[i + 1]] then
                 if i == #splits - 1 then
                     if type(original[splits[i + 1]]) ~= "function" then
                         error(("Invalid hook target '" .. target) .. "' is not a function!")
@@ -61,7 +61,6 @@ local Hook = function()
                         return hook(_G.PipeWrenchHooks[target], ____self, ...)
                     end
                     print("Hooked into " .. target)
-                    return true
                 end
                 original = original[splits[i + 1]]
             else
