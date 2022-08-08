@@ -55,10 +55,9 @@ local Hook = function()
                     if type(original[splits[i + 1]]) ~= "function" then
                         error(("Invalid hook target '" .. target) .. "' is not a function!")
                     end
-                    _G.PipeWrenchHooks = _G.PipeWrenchHooks or {}
-                    _G.PipeWrenchHooks[target] = _G.PipeWrenchHooks[target] or original[splits[i + 1]]
+                    local originalFunc = original[splits[i + 1]]
                     original[splits[i + 1]] = function(____self, ...)
-                        return hook(_G.PipeWrenchHooks[target], ____self, ...)
+                        return hook(originalFunc, ____self, ...)
                     end
                     print("Hooked into " .. target)
                 end
