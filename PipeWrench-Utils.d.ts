@@ -49,4 +49,18 @@ declare module 'PipeWrench-Utils' {
    */
   export const hookInto: (target: string, hook: (this: void, method: (this: void, self: any, ...args: any[]) => any, self: any, ...args: any[]) => void) => boolean
 }
+
+/**
+ * getGlobal by Konijima, 8/8/2022
+ * Allow TS mods to get a global object/method and cast a type
+ */
+declare module 'PipeWrench-Utils' {
+  /**
+   * @noSelf
+   * 
+   * Allow TS mods to get a global object and cast a type
+   * @param target The target object/method fullpath
+   * @return object or null
+   */
+  export const getGlobal: <T>(target: string) => T;
 }

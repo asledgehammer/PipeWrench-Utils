@@ -69,10 +69,29 @@ local hookInto = function(target, hook)
   end
 end
 
+local getGlobal = function(target)
+  target = __TS__StringReplaceAll(target, ":", ".")
+  local splits = __TS__StringSplit(target, ".")
+  local original = _G[splits[1]]
+  do
+      local i = 1
+      while i < #splits do
+          if original and original[splits[i + 1]] then
+              if i == #splits - 1 then
+                  return original[splits[i + 1]]
+              end
+              original = original[splits[i + 1]]
+          else
+              return;
+          end
+          i = i + 1
+      end
+  end
 end
 
 local Exports = {}
 Exports.syncCallback = SyncCallback()
 Exports.hookInto = hookInto
+Exports.getGlobal = getGlobal
 function Exports.isPipeWrenchLoaded() return _G.PIPEWRENCH_READY ~= nil end
 return Exports
