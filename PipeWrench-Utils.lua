@@ -79,7 +79,7 @@ local getGlobal = function(target)
     do
         local i = 1
         while i < #splits do
-            if original[splits[i + 1]] then
+            if original and original[splits[i + 1]] then
                 original = original[splits[i + 1]]
             else
                 return original
