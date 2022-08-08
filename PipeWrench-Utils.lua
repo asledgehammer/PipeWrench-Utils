@@ -25,18 +25,18 @@ local __TS__StringReplaceAll = ____lualib.__TS__StringReplaceAll
 local __TS__StringSplit = ____lualib.__TS__StringSplit
 
 local SyncCallback = function()
-  local o = {}
-  o.callbacks = {}
-  o.add = function(callback) table.insert(o.callbacks, callback) end
-  o.tick = function()
-    if #o.callbacks > 0 then
-      for i = 1, #o.callbacks, 1 do o.callbacks[i]() end
-      o.callbacks = {}
+    local o = {}
+    o.callbacks = {}
+    o.add = function(callback) table.insert(o.callbacks, callback) end
+    o.tick = function()
+        if #o.callbacks > 0 then
+            for i = 1, #o.callbacks, 1 do o.callbacks[i]() end
+            o.callbacks = {}
+        end
     end
-  end
-  Events.OnFETick.Add(o.tick)
-  Events.OnTickEvenPaused.Add(o.tick)
-return o
+    Events.OnFETick.Add(o.tick)
+    Events.OnTickEvenPaused.Add(o.tick)
+    return o
 end
 
 ---@param target string The target method fullpath
@@ -51,22 +51,22 @@ local hookInto = function(target, hook)
   do
       local i = 1
       while i < #splits do
-          if original and original[splits[i + 1]] then
-              if i == #splits - 1 then
-                  if type(original[splits[i + 1]]) ~= "function" then
-                      error(("Invalid hook target '" .. target) .. "' is not a function!")
-                  end
-                  local originalFunc = original[splits[i + 1]]
-                  original[splits[i + 1]] = function(____self, ...)
-                      return hook(originalFunc, ____self, ...)
-                  end
-                  print("Hooked into " .. target)
-              end
-              original = original[splits[i + 1]]
-          else
-              error(("Invalid hook target '" .. target) .. "' is not found!")
-          end
-          i = i + 1
+            if original and original[splits[i + 1]] then
+                if i == #splits - 1 then
+                    if type(original[splits[i + 1]]) ~= "function" then
+                        error(("Invalid hook target '" .. target) .. "' is not a function!")
+                    end
+                    local originalFunc = original[splits[i + 1]]
+                    original[splits[i + 1]] = function(____self, ...)
+                        return hook(originalFunc, ____self, ...)
+                    end
+                    print("Hooked into " .. target)
+                end
+                original = original[splits[i + 1]]
+            else
+                error(("Invalid hook target '" .. target) .. "' is not found!")
+            end
+            i = i + 1
       end
   end
 end
