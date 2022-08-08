@@ -36,13 +36,12 @@ declare module 'PipeWrench-Utils' {
 
 /**
  * hookInto by Konijima, 8/5/2022
- * Allow TS mods to hook into global object methods to extend or overwrite functionality
  */
  declare module 'PipeWrench-Utils' {
   /**
    * @noSelf
    * 
-   * Hook into a global object method
+   * Hook into global object methods to extend or overwrite functionality
    * @param target The target method fullpath
    * @param hook The hook function to apply to that method
    * @throws Throws an error if invalid
@@ -52,15 +51,14 @@ declare module 'PipeWrench-Utils' {
 
 /**
  * getGlobal by Konijima, 8/8/2022
- * Allow TS mods to get a global object/method and cast a type
  */
 declare module 'PipeWrench-Utils' {
   /**
    * @noSelf
    * 
-   * Allow TS mods to get a global object and cast a type
+   * Get a global object and cast a type
    * @param target The target object/method fullpath
-   * @return object or null
+   * @return object | null
    */
   export const getGlobal: <T>(target: string) => T;
 }

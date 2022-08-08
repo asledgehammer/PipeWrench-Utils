@@ -39,6 +39,8 @@ local SyncCallback = function()
 return o
 end
 
+---@param target string The target method fullpath
+---@param hook function The hook function to apply to that method
 local hookInto = function(target, hook)
   if type(target) ~= "string" then error("Hook 'target' param must be a string."); end
   if type(hook) ~= "function" then error("Hook 'hook' param must be a function."); end
@@ -69,6 +71,7 @@ local hookInto = function(target, hook)
   end
 end
 
+---@param target string The target object/method fullpath
 local getGlobal = function(target)
   target = __TS__StringReplaceAll(target, ":", ".")
   local splits = __TS__StringSplit(target, ".")
