@@ -20,6 +20,10 @@
 -- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 -- SOFTWARE.
 
+local ____lualib = require("lualib_bundle")
+local __TS__StringReplaceAll = ____lualib.__TS__StringReplaceAll
+local __TS__StringSplit = ____lualib.__TS__StringSplit
+
 local SyncCallback = function()
   local o = {}
   o.callbacks = {}
@@ -37,26 +41,58 @@ end
 
 local Hook = function()
   local o = {}
+
+  o.deepInto = function(target, hook)
+    print(("Hooking into " .. target) .. "...")
+    target = __TS__StringReplaceAll(target, ":", ".")
+    local splits = __TS__StringSplit(target, ".")
+    local original = _G[splits[1]]
+    do
+        local i = 1
+        while i < #splits do
+            if original[splits[i + 1]] then
+                if i == #splits - 1 then
+                    if type(original[splits[i + 1]]) ~= "function" then
+                        error(("Invalid hook target '" .. target) .. "' is not a function!")
+                    end
+                    _G.PipeWrenchHooks = _G.PipeWrenchHooks or {}
+                    _G.PipeWrenchHooks[target] = _G.PipeWrenchHooks[target] or original[splits[i + 1]]
+                    original[splits[i + 1]] = function(____self, ...)
+                        return hook(_G.PipeWrenchHooks[target], ____self, ...)
+                    end
+                    print("Hooked into " .. target)
+                    return true
+                end
+                original = original[splits[i + 1]]
+            else
+                error(("Invalid hook target '" .. target) .. "' is not found!")
+            end
+            i = i + 1
+        end
+    end
+  end
+
   o.into = function(objectName, methodName, hook)
-    local hookName = objectName .. "." .. methodName;
-    print("Hooking into " .. hookName);
+    local hookName = objectName .. "." .. methodName
+    print("Hooking into " .. hookName)
     if _G[objectName] then
       if _G[objectName][methodName] then
         -- We store and reset hook to allow for reloadlua to work properly
-        _G["PipeWrenchHooks"] = _G["PipeWrenchHooks"] or {};
-        _G["PipeWrenchHooks"][hookName] = _G["PipeWrenchHooks"][hookName] or _G[objectName][methodName]; -- store original method
-        _G[objectName][methodName] = _G["PipeWrenchHooks"][hookName]; -- reset original method
+        _G["PipeWrenchHooks"] = _G["PipeWrenchHooks"] or {}
+        _G["PipeWrenchHooks"][hookName] = _G["PipeWrenchHooks"][hookName] or _G[objectName][methodName] -- store original method
+        _G[objectName][methodName] = _G["PipeWrenchHooks"][hookName] -- reset original method
         _G[objectName][methodName] = function(this, ...) -- hook original method
-          return hook(_G["PipeWrenchHooks"][hookName], this, ...);
+          return hook(_G["PipeWrenchHooks"][hookName], this, ...)
         end
-        return true;
+        return true
       else
-        error("Cannot hook into " .. hookName .. ", object method not found!");
+        error("Cannot hook into " .. hookName .. ", object method not found!")
       end
     else
-      error("Cannot hook into " .. hookName .. ", object not found!");
+      error("Cannot hook into " .. hookName .. ", object not found!")
     end
   end
+
   return o
 end
 
