@@ -51,18 +51,6 @@ declare module 'PipeWrench-Utils' {
      * @param hook The hook function to apply to that method
      * @throws Throws an error if invalid
      */
-    static deepInto: (target: string, hook: (this: void, method: (this: void, self: any, ...args: any[]) => any, self: any, ...args: any[]) => void) => boolean
-
-    /**
-     * @noSelf
-     * @deprecated Use `hook.deepInto(target, hook)` instead, this one will be removed in the future.
-     * 
-     * Hook into a global object method
-     * @param objectName The global object name to find
-     * @param methodName The method to find into the global object
-     * @param hook The hook function to apply to that method
-     * @returns Return true if the hook was successful 
-     */
-    static into: (objectName: string, methodName: string, hook: (this: void, method: (this: void, self: any, ...args: any[]) => any, self: any, ...args: any[]) => void) => boolean
+    static into: (target: string, hook: (this: void, method: (this: void, self: any, ...args: any[]) => any, self: any, ...args: any[]) => void) => boolean
   }
 }

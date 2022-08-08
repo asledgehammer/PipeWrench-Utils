@@ -42,7 +42,7 @@ end
 local Hook = function()
   local o = {}
 
-  o.deepInto = function(target, hook)
+  o.into = function(target, hook)
     if type(target) ~= "string" then error("Hook 'target' param must be a string."); end
     if type(hook) ~= "function" then error("Hook 'hook' param must be a function."); end
     print(("Hooking into " .. target) .. "...")
@@ -69,27 +69,6 @@ local Hook = function()
             end
             i = i + 1
         end
-    end
-  end
-
-  o.into = function(objectName, methodName, hook)
-    local hookName = objectName .. "." .. methodName
-    print("Hooking into " .. hookName)
-    if _G[objectName] then
-      if _G[objectName][methodName] then
-        -- We store and reset hook to allow for reloadlua to work properly
-        _G["PipeWrenchHooks"] = _G["PipeWrenchHooks"] or {}
-        _G["PipeWrenchHooks"][hookName] = _G["PipeWrenchHooks"][hookName] or _G[objectName][methodName] -- store original method
-        _G[objectName][methodName] = _G["PipeWrenchHooks"][hookName] -- reset original method
-        _G[objectName][methodName] = function(this, ...) -- hook original method
-          return hook(_G["PipeWrenchHooks"][hookName], this, ...)
-        end
-        return true
-      else
-        error("Cannot hook into " .. hookName .. ", object method not found!")
-      end
-    else
-      error("Cannot hook into " .. hookName .. ", object not found!")
     end
   end
 
