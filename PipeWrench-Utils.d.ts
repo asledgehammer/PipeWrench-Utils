@@ -35,22 +35,18 @@ declare module 'PipeWrench-Utils' {
 }
 
 /**
- * Hook utility class by Konijima, 8/5/2022
+ * hookInto by Konijima, 8/5/2022
  * Allow TS mods to hook into global object methods to extend or overwrite functionality
  */
  declare module 'PipeWrench-Utils' {
   /**
-   * Hook utility class
+   * @noSelf
+   * 
+   * Hook into a global object method
+   * @param target The target method fullpath
+   * @param hook The hook function to apply to that method
+   * @throws Throws an error if invalid
    */
-  export abstract class hook {
-    /**
-     * @noSelf
-     * 
-     * Hook deep into a global object method
-     * @param target The target method fullpath
-     * @param hook The hook function to apply to that method
-     * @throws Throws an error if invalid
-     */
-    static into: (target: string, hook: (this: void, method: (this: void, self: any, ...args: any[]) => any, self: any, ...args: any[]) => void) => boolean
-  }
+  export const hookInto: (target: string, hook: (this: void, method: (this: void, self: any, ...args: any[]) => any, self: any, ...args: any[]) => void) => boolean
+}
 }
