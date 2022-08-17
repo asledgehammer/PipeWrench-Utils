@@ -20,10 +20,6 @@
 -- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 -- SOFTWARE.
 
-local ____lualib = require("lualib_bundle")
-local __TS__StringReplaceAll = ____lualib.__TS__StringReplaceAll
-local __TS__StringSplit = ____lualib.__TS__StringSplit
-
 local SyncCallback = function()
     local o = {}
     o.callbacks = {}
@@ -41,13 +37,11 @@ end
 
 ---@param target string The target method fullpath
 ---@param hook function The hook function to apply to that method
-local hookInto = function(target, hook)
-  if type(target) ~= "string" then error("Hook 'target' param must be a string."); end
+local hookInto = function(splits, hook)
   if type(hook) ~= "function" then error("Hook 'hook' param must be a function."); end
-  print(("Hooking into " .. target) .. "...")
-  target = __TS__StringReplaceAll(target, ":", ".")
-  local splits = __TS__StringSplit(target, ".")
-  local original = _G[splits[1]]
+  print(("Hooking into " .. splits) .. "...")
+  local target = table.concat(splits,".")
+  local original = _G[target[1]]
   do
       local i = 1
       while i < #splits do
@@ -71,28 +65,8 @@ local hookInto = function(target, hook)
   end
 end
 
----@param target string The target object/method fullpath
-local getGlobal = function(target)
-    target = __TS__StringReplaceAll(target, ":", ".")
-    local splits = __TS__StringSplit(target, ".")
-    local original = _G[splits[1]]
-    do
-        local i = 1
-        while i < #splits do
-            if original and original[splits[i + 1]] then
-                original = original[splits[i + 1]]
-            else
-                return original
-            end
-            i = i + 1
-        end
-    end
-    return original
-end
-
 local Exports = {}
-Exports.syncCallback = SyncCallback()
-Exports.hookInto = hookInto
-Exports.getGlobal = getGlobal
-function Exports.isPipeWrenchLoaded() return _G.PIPEWRENCH_READY ~= nil end
+Exports._syncCallback = SyncCallback()
+Exports._hookInto = hookInto
+function Exports._isPipeWrenchLoaded() return _G.PIPEWRENCH_READY ~= nil end
 return Exports

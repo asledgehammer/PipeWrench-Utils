@@ -1,24 +1,26 @@
 {
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
-    "declaration": false,
-    "experimentalDecorators": true,
+    "declaration": true,
+    "stripInternal": true,
     "lib": [
       "ESNext",
-      "DOM"
     ],
     "module": "ESNext",
     "moduleResolution": "node",
     "strict": true,
+    "outDir": "dist",
     "target": "ESNext",
     "types": [
       "lua-types/5.1",
     ]
   },
   "tstl": {
-    "noHeader": true
+    "noHeader": true,
+    "buildMode": "library",
   },
   "include": [
-    "PipeWrench-Utils.d.ts",
+    "src/**/*.ts",
+    "index.ts"
   ]
 }

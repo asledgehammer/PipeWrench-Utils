@@ -21,44 +21,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+/** @noSelf */
 
-declare module 'PipeWrench-Utils' {
-  export const syncCallback: {
-    /** @noSelf */
+export declare const _syncCallback: {
     add(callback: () => void): void;
-    /** @noSelf */
     tick(): void;
-  };
+};
 
-  /** @noSelf */
-  export const isPipeWrenchLoaded: () => boolean;
-}
+export declare function _isPipeWrenchLoaded(): boolean;
+
 
 /**
  * hookInto by Konijima, 8/5/2022
  */
- declare module 'PipeWrench-Utils' {
-  /**
-   * @noSelf
-   * 
-   * Hook into global object methods to extend or overwrite functionality
-   * @param target The target method fullpath
-   * @param hook The hook function to apply to that method
-   * @throws Throws an error if invalid
-   */
-  export const hookInto: (target: string, hook: (this: void, method: (this: void, self: any, ...args: any[]) => any, self: any, ...args: any[]) => void) => boolean
-}
-
 /**
- * getGlobal by Konijima, 8/8/2022
+ * Hook into global object methods to extend or overwrite functionality
+ * @param target The target method fullpath
+ * @param hook The hook function to apply to that method
+ * @throws Throws an error if invalid
  */
-declare module 'PipeWrench-Utils' {
-  /**
-   * @noSelf
-   * 
-   * Get a global object and cast a type
-   * @param target The target object/method fullpath
-   * @return object | null
-   */
-  export const getGlobal: <T>(target: string) => T;
-}
+
+export declare const _luaHookInto: (target: string[], hook: (this: void, method: (this: void, self: any, ...args: any[]) => any, self: any, ...args: any[]) => void) => boolean
+

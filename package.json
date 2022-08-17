@@ -1,8 +1,13 @@
 {
-  "name": "@shughesuk/pipewrench-utils",
+  "name": "@asledgehammer/pipewrench-utils",
   "version": "41.73.0",
   "description": "",
-  "types": "PipeWrench-Utils.d.ts",
+  "types": "./dist/index",
+  "main": "./dist/index",
+  "files": [
+    "dist/**/*.lua",
+    "dist/**/*.d.ts"
+  ],
   "scripts": {
     "build": "tsc"
   },
@@ -30,6 +35,7 @@
   "homepage": "https://github.com/asledgehammer/PipeWrench-Utils#readme",
   "devDependencies": {
     "lua-types": "^2.12.0",
-    "typescript": "^4.7.4"
+    "typescript": "^4.7.4",
+    "typescript-to-lua": "^1.8.2"
   }
 }
