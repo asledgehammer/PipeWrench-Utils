@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "declaration": true,
+    "stripInternal": true,
+    "lib": [
+      "ESNext",
+    ],
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "strict": true,
+    "outDir": "dist",
+    "target": "ESNext",
+    "types": [
+      "lua-types/5.1",
+    ]
+  },
+  "tstl": {
+    "noHeader": true,
+    "buildMode": "library",
+  },
+  "include": [
+    "src/**/*.ts",
+    "index.ts"
+  ]
+}
